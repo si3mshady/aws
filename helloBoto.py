@@ -85,6 +85,6 @@ if __name__ == "__main__":
     main()
 
 
-#file_info script enhanced to include S3 functionality - Elliott Arnold = Si3mshady learning aws using  python3 - a series 2-18-19
+#File_upload script to S3  - Elliott Arnold = Si3mshady learning aws using  python3 - a series 2-18-19
 
 
