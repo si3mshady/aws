@@ -1,0 +1,55 @@
+Mappings:
+  Images:
+    '14.04':
+      Ubuntu: ami-00d4e9ff62bc40e03
+    '16.04':
+      Ubuntu: ami-0cfee17793b08a293
+    '18.04':
+      Ubuntu: ami-07d0cf3af28718ef8
+  InstanceType:
+    '14.04':
+      type: t2.medium
+    '16.04':
+      type: t2.medium
+    '18.04':
+      type: t2.medium
+Parameters:
+  Image:
+    AllowedValues:
+      - '18.04'
+      - '16.04'
+      - '14.04'
+    Description: Please select an Ubuntu Server Image (18.04,16.04,14.04)
+    Type: String
+Resources:
+  JenkinsNginx:
+    Properties:
+      ImageId: !FindInMap
+        - Images
+        - !Ref 'Image'
+        - Ubuntu
+      InstanceType: !FindInMap
+        - InstanceType
+        - !Ref 'Image'
+        - type
+      KeyName: keyZ
+      SecurityGroups:
+        - !Ref 'JenkinsSecurityGroup'
+    Type: AWS::EC2::Instance
+  JenkinsSecurityGroup:
+    Properties:
+      GroupDescription: For Jenkins and Nginx testing
+      SecurityGroupIngress:
+        - CidrIp: '0.0.0.0/0'
+          FromPort: '22'
+          IpProtocol: tcp
+          ToPort: '22'
+        - CidrIp: '0.0.0.0/0'
+          FromPort: '80'
+          IpProtocol: tcp
+          ToPort: '80'
+        - CidrIp: '0.0.0.0/0'
+          FromPort: '443'
+          IpProtocol: tcp
+          ToPort: '443'
+    Type: AWS::EC2::SecurityGroup
